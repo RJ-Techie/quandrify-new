@@ -1,0 +1,206 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Listing {
+  id                    String            @id @default(uuid())
+  slug                  String            @unique
+  title                 String
+  tagline               String
+  shortDescription      String
+  fullDescription       String
+  websiteUrl            String
+  logoUrl               String
+  primaryCtaText        String            @default("Visit Website")
+  coverImageUrl         String?
+  demoUrl               String?
+  videoUrl              String?
+  category              String
+  
+  // Company Info
+  companyName           String?
+  founderName           String?
+  foundedDate           String?
+  country               String?
+  city                  String?
+  teamSize              String?
+  companyStage          String?
+  
+  // Financial & Traction Metrics
+  revenueModel          String?
+  mrr                   String?
+  arr                   String?
+  monthlyRevenue        String?
+  annualRevenue         String?
+  usersCount            String?
+  mauCount              String?
+  customersCount        String?
+  payingCustomersCount  String?
+  growthRate            String?
+  
+  // JSON array string of metrics marked public (e.g. ["mrr", "usersCount", "arr"])
+  publicMetricsJson     String            @default("[]")
+  
+  // Technology Stack
+  techFrontend          String?
+  techBackend           String?
+  techDatabase          String?
+  techCloud             String?
+  techAi                String?
+  techPayment           String?
+  customTech            String?
+  
+  // Social & App Links
+  linkWebsite           String?
+  linkX                 String?
+  linkLinkedIn          String?
+  linkInstagram         String?
+  linkYouTube           String?
+  linkGitHub            String?
+  linkProductHunt       String?
+  linkAppStore          String?
+  linkGooglePlay        String?
+  
+  // Founder Story
+  founderStoryWhy       String?
+  founderStoryProblem   String?
+  founderStoryNext      String?
+  
+  // Contact
+  contactName           String
+  contactEmail          String
+  contactPhone          String?
+  
+  // Status & Security
+  status                String            @default("PENDING") // PENDING, PUBLISHED, SUSPENDED, ARCHIVED
+  isFeatured            Boolean           @default(false)
+  managementToken       String            @unique
+  managementTokenHash   String?
+  
+  // Analytics Counters
+  viewCount             Int               @default(0)
+  clickCount            Int               @default(0)
+  contactCount          Int               @default(0)
+  top10Impressions      Int               @default(0)
+  
+  publishedAt           DateTime?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  dailySpots            DailySpot[]
+  payments              Payment[]
+  contactMessages       ContactMessage[]
+
+  @@index([status])
+  @@index([category])
+  @@index([createdAt])
+  @@index([publishedAt])
+}
+
+model DailySpotPool {
+  id            String      @id @default(uuid())
+  date          String      @unique // Format: YYYY-MM-DD
+  claimedSlots  Int         @default(0)
+  maxSlots      Int         @default(10)
+  isSoldOut     Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model DailySpot {
+  id            String      @id @default(uuid())
+  date          String      // Format: YYYY-MM-DD
+  position      Int         // 1 to 10
+  listingId     String
+  listing       Listing     @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  paymentId     String?
+  createdAt     DateTime    @default(now())
+
+  @@unique([date, position], name: "date_position_unique")
+  @@index([date])
+  @@index([listingId])
+}
+
+model Payment {
+  id                     String      @id @default(uuid())
+  listingId              String
+  listing                Listing     @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  razorpayOrderId        String?     @unique
+  razorpayPaymentId      String?     @unique
+  fulfillmentStatus      String      @default("PENDING")
+  stripeSessionId        String?     @unique
+  stripePaymentIntentId  String?
+  amount                 Int         // amount in cents (4900 or 14800)
+  currency               String      @default("usd")
+  hasTop10Addon          Boolean     @default(false)
+  top10PositionAssigned  Int?
+  top10DateAssigned      String?
+  status                 String      @default("PENDING") // PENDING, SUCCEEDED, FAILED, REFUNDED
+  rawWebhookData         String?
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ContactMessage {
+  id            String      @id @default(uuid())
+  listingId     String
+  listing       Listing     @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  senderName    String
+  senderEmail   String
+  senderCompany String?
+  senderWebsite String?
+  message       String
+  ipAddress     String?
+  status        String      @default("DELIVERED")
+  createdAt     DateTime    @default(now())
+
+  @@index([listingId])
+}
+
+model AdminUser {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  passwordHash String
+  name         String
+  role         String      @default("ADMIN")
+  createdAt    DateTime    @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  actor     String
+  details   String?
+  createdAt DateTime @default(now())
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(uuid())
+  eventType String   // VIEW, CLICK, CONTACT, TOP10_IMPRESSION
+  listingId String?
+  metadata  String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@index([eventType])
+  @@index([listingId])
+}
+
+model AdminSession {
+  tokenHash String @id
+  adminId String
+  expiresAt DateTime
+}
+model RateLimit {
+  key String @id
+  count Int @default(1)
+  expiresAt DateTime
+}
