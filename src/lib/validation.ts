@@ -1,5 +1,11 @@
 import { z } from 'zod';
-const url = z.string().max(2048).url().refine(v => ['https:', 'http:'].includes(new URL(v).protocol), 'Use an HTTP or HTTPS URL');
+const url = z.string().trim().max(2048).url().refine(v => {
+  try {
+    return ['https:', 'http:'].includes(new URL(v).protocol);
+  } catch {
+    return false;
+  }
+}, 'Use an HTTP or HTTPS URL');
 export function validateListing(body: unknown, partial = false): z.SafeParseReturnType<unknown, Record<string, any>> {
   const optional: Record<string, z.ZodTypeAny> = {};
   const texts = 'primaryCtaText category companyName founderName foundedDate country city teamSize companyStage revenueModel mrr arr monthlyRevenue annualRevenue usersCount mauCount customersCount payingCustomersCount growthRate techFrontend techBackend techDatabase techCloud techAi techPayment customTech founderStoryWhy founderStoryProblem founderStoryNext contactPhone';
