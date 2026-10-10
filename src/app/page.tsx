@@ -56,6 +56,7 @@ export default async function HomePage({ searchParams }: PageProps) {
     <div className="w-full space-y-4">
       {/* Live Top-10 Status Header Widget */}
       <LiveStatusWidget
+        minimumToEnter={top10Data.minimumToEnter}
         claimedSlots={top10Data.claimedSlots}
         remainingSlots={top10Data.remainingSlots}
         isSoldOut={top10Data.isSoldOut}
@@ -64,7 +65,7 @@ export default async function HomePage({ searchParams }: PageProps) {
       {/* Hero Section: Today's Top 3 (#1 featured large, #2, #3) */}
       <HeroTop3Cards top3={top3} />
 
-      {/* Today's Top 10 Remaining (#4 to #10 - Always shows positions 4 through 10 with badges!) */}
+      {/* Paid Top 10 Remaining (#4 to #10 - Always shows positions 4 through 10 with badges!) */}
       <Top10RemainingGrid remainingSpots={remainingTop10} />
 
       {/* Discover Products Feed Section (100 items per page with pagination) */}

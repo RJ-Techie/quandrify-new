@@ -37,7 +37,7 @@ export default function Top10RemainingGrid({ remainingSpots }: Top10RemainingGri
             <span>Top 10 Remaining Ranks (#4 – #10)</span>
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Daily featured positions reserved for today's top listings.
+            Sponsored positions ranked by cumulative promotional payments.
           </p>
         </div>
         <span className="text-xs font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full shrink-0">
@@ -122,7 +122,7 @@ export default function Top10RemainingGrid({ remainingSpots }: Top10RemainingGri
                       <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0 animate-pulse" /> TOP #{position} • AVAILABLE
                     </span>
                     <span className="text-[10px] text-amber-400/80 font-extrabold uppercase bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
-                      $99
+                      $10
                     </span>
                   </div>
 
@@ -132,7 +132,7 @@ export default function Top10RemainingGrid({ remainingSpots }: Top10RemainingGri
                     </div>
                     <h3 className="text-sm font-bold text-white">Rank #{position} Available</h3>
                     <p className="text-[11px] text-slate-400 line-clamp-2">
-                      Claim position #{position} to get noticed by active VCs and buyers today.
+                      List your product to enter paid ranking. Position is not guaranteed.
                     </p>
                   </div>
                 </div>
@@ -142,7 +142,7 @@ export default function Top10RemainingGrid({ remainingSpots }: Top10RemainingGri
                     href="/list?top10=true"
                     className="w-full inline-flex items-center justify-center gap-1.5 text-xs font-black text-slate-950 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-500 px-3.5 py-2 rounded-xl shadow-md hover:scale-[1.02] active:scale-95 transition-all text-center"
                   >
-                    <span>Claim Spot (${99})</span>
+                    <span>Promote ($10)</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>

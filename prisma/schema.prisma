@@ -135,6 +135,12 @@ model Payment {
   fulfillmentStatus      String      @default("PENDING")
   stripeSessionId        String?     @unique
   stripePaymentIntentId  String?
+  promotionalAmount      Int         @default(0)
+  originalPromotionalAmount Int       @default(0)
+  kind                   String      @default("LISTING")
+  couponCode             String?
+  discountAmount         Int         @default(0)
+  paidAt                 DateTime?
   amount                 Int         // amount in cents (4900 or 14800)
   currency               String      @default("usd")
   hasTop10Addon          Boolean     @default(false)
@@ -147,6 +153,7 @@ model Payment {
 
   @@index([status])
   @@index([createdAt])
+  @@index([status, promotionalAmount])
 }
 
 model ContactMessage {
@@ -203,4 +210,23 @@ model RateLimit {
   key String @id
   count Int @default(1)
   expiresAt DateTime
+}
+
+model Coupon {
+ id String @id @default(uuid())
+ code String @unique
+ type String
+ value Int
+ active Boolean @default(true)
+ expiresAt DateTime?
+ createdAt DateTime @default(now())
+}
+model SponsoredAd {
+ id String @id @default(uuid())
+ title String
+ description String
+ imageUrl String?
+ targetUrl String
+ active Boolean @default(true)
+ createdAt DateTime @default(now())
 }

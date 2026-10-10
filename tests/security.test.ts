@@ -28,3 +28,18 @@ test('unsafe protocols, wrong input types and oversized descriptions are rejecte
   assert.equal(validateListing({ wantsTop10Addon: 'true' }, true).success, false);
   assert.equal(validateListing({ fullDescription: 'x'.repeat(20001) }, true).success, false);
 });
+test('empty optional links do not throw during a full listing submission', () => {
+  const listing = {
+    title: 'Example', tagline: 'Example product', shortDescription: 'Description',
+    fullDescription: 'Full description', websiteUrl: 'https://example.com',
+    logoUrl: 'https://example.com/logo.png', contactName: 'Seller',
+    contactEmail: 'seller@example.com',
+  };
+  for (const key of 'coverImageUrl demoUrl videoUrl linkWebsite linkX linkLinkedIn linkInstagram linkYouTube linkGitHub linkProductHunt linkAppStore linkGooglePlay'.split(' ')) {
+    assert.equal(validateListing({ ...listing, [key]: '' }).success, true, key);
+  }
+  for (const value of ['', 'not-a-url', 'https://', 'javascript:alert(1)']) {
+    assert.equal(validateListing({ ...listing, websiteUrl: value }).success, false);
+    assert.equal(validateListing({ demoUrl: value }, true).success, value === '');
+  }
+});

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 const ADMIN_NAV = [
+  { name: 'Coupons & Ads', href: '/codersmansion/admin/promotions', icon: Crown },
   { name: 'Dashboard', href: '/codersmansion/admin', icon: LayoutDashboard },
   { name: 'Listings', href: '/codersmansion/admin/listings', icon: Layers },
   { name: 'Payments', href: '/codersmansion/admin/payments', icon: CreditCard },

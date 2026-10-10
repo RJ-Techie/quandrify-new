@@ -55,7 +55,7 @@ export default function PrivacyPolicyPage() {
           <p>We use the collected information for the following specific purposes:</p>
           <ul className="list-disc pl-5 space-y-1 text-slate-400">
             <li>To publish your product listing and showcase it to VCs, angel investors, and tech buyers.</li>
-            <li>To process standard listing fees ($49) and optional Top 10 promotional spot fees ($99).</li>
+            <li>To process standard listing fees ($10) and optional Top 10 promotional spot fees ($10).</li>
             <li>To issue private seller management access tokens via email.</li>
             <li>To proxy contact messages from interested buyers directly to verified seller emails without exposing raw emails to web scrapers.</li>
             <li>To detect, prevent, and mitigate fraudulent listings or security threats.</li>

@@ -43,14 +43,14 @@ export default function RefundPolicyPage() {
               Nature of Services Provided
             </h2>
             <p className="mb-3">
-              Quandrify provides digital advertising, startup showcase directory listings, and daily promotional spot placements. All fees collected on our platform are for digital service execution:
+              Quandrify provides digital advertising, startup showcase directory listings, and permanent promotional ranking credit. All fees collected on our platform are for digital service execution:
             </p>
             <ul className="list-disc list-inside space-y-2 text-slate-400 pl-2">
               <li>
-                <strong className="text-slate-200">Standard Listing Fee ($49 / one-time):</strong> Immediate processing, database indexing, search inclusion, and permanent listing hosting on Quandrify.
+                <strong className="text-slate-200">Standard Listing Fee ($10 / one-time):</strong> Immediate processing, database indexing, search inclusion, and permanent listing hosting on Quandrify.
               </li>
               <li>
-                <strong className="text-slate-200">Top 10 Promotional Showcase Placement ($99 / 24-hour cycle):</strong> Immediate priority display in the top featured section of our homepage for a 24-hour window.
+                <strong className="text-slate-200">Top 10 Promotional Showcase Placement ($10 / upgrade):</strong> Adds the actual paid amount to cumulative promotional credit. Ranking has no expiry or reset, and no position or traffic is guaranteed.
               </li>
             </ul>
           </section>
@@ -88,7 +88,7 @@ export default function RefundPolicyPage() {
               <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800/60">
                 <h3 className="font-semibold text-white mb-1">B. System Outage or Non-Delivery</h3>
                 <p className="text-slate-400 text-sm">
-                  If a server outage or critical system defect prevents your listing from being published or displaying in the Top 10 section during your scheduled UTC calendar day, a full refund or complimentary cycle reschedule will be issued.
+                  If a server outage or critical system defect prevents publication or prevents captured promotional credit from being applied, contact support for correction or refund review. Displacement by a higher-paying product is part of the ranking rules and does not indicate a service failure.
                 </p>
               </div>
               <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800/60">

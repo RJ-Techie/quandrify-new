@@ -22,20 +22,14 @@ export default async function ManagePage({ params }: ManagePageProps) {
     notFound();
   }
 
-  const todayStr = getTodayDateString();
-  const [todayPool, todaySpot] = await Promise.all([
-    getTodayTop10Pool(),
-    db.dailySpot.findFirst({
-      where: {
-        listingId: listing.id,
-        date: todayStr,
-      },
-    }),
-  ]);
+  const todayPool = await getTodayTop10Pool();
+  const todaySpot = todayPool.spots.find(s=>s.listingId === listing.id);
 
   return (
     <SellerManagementClient
       pendingPaymentId={(await db.payment.findFirst({ where: { listingId: listing.id, status: 'PENDING' }, orderBy: { createdAt: 'desc' } }))?.id}
+      currentCredit={(await db.payment.aggregate({where:{listingId:listing.id,status:'SUCCEEDED'},_sum:{promotionalAmount:true}}))._sum.promotionalAmount || 0}
+      minimumToEnter={todayPool.minimumToEnter}
       initialListing={listing}
       token={resolvedparams.token}
       todaySpotPosition={todaySpot ? todaySpot.position : null}

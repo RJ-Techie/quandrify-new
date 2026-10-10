@@ -1,9 +1,9 @@
+import { couponQuote } from '@/lib/coupons';
 import { rateLimit } from '@/lib/rateLimit';
 import { validateListing } from '@/lib/validation';
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { db } from '@/lib/db';
-import { getTodayDateString, getTodayTop10Pool } from '@/lib/top10';
 
 export async function POST(req: Request) {
   // Set TRUST_PROXY=true only behind a proxy that overwrites forwarded headers.
@@ -77,14 +77,11 @@ export async function POST(req: Request) {
       );
     }
 
-    // Check Top-10 pool if add-on selected
-    const todayPool = await getTodayTop10Pool();
-    const canSelectTop10 = wantsTop10Addon && !todayPool.isSoldOut;
-
-    // Calculate server price (NEVER trust frontend price)
-    const baseListingFee = 49;
-    const top10Fee = canSelectTop10 ? 99 : 0;
-    const totalAmount = baseListingFee + top10Fee; // $49 or $148
+    let quote;
+    try { quote = await couponQuote(1000, body.couponCode); }
+    catch (error) { return NextResponse.json({ error: (error as Error).message }, { status: 400 }); }
+    const canSelectTop10 = true;
+    const totalAmount = quote.amount / 100;
 
     // Generate unique slug
     const baseSlug = title
@@ -164,7 +161,7 @@ export async function POST(req: Request) {
     const payment = await tx.payment.create({
       data: {
         listingId: listing.id,
-        amount: totalAmount * 100, // cents (4900 or 14800)
+        amount: quote.amount, promotionalAmount: quote.amount, originalPromotionalAmount: quote.amount, couponCode: quote.couponCode, discountAmount: quote.discount, // cents (4900 or 14800)
         currency: 'usd',
         hasTop10Addon: canSelectTop10,
         status: 'PENDING',

@@ -18,7 +18,7 @@ export default function Footer() {
             <span className="font-extrabold text-lg sm:text-xl text-white tracking-tight">QUANDRIFY</span>
           </div>
           <p className="text-xs text-slate-400 max-w-md leading-relaxed">
-            The direct-listing marketplace for startups, SaaS products, and AI tools. Get noticed by VCs, angel investors, and active product buyers. Go viral on today's daily Top 10 Showcase.
+            The direct-listing marketplace for startups, SaaS products, and AI tools. Get noticed by VCs, angel investors, and active product buyers. Explore products in the permanent sponsored Top 10 showcase.
           </p>
           <div className="text-[11px] text-slate-500 pt-1">
             Top-10 positions are paid promotional placements and do not represent editorial endorsement or an independent quality ranking.
@@ -28,10 +28,10 @@ export default function Footer() {
         <div>
           <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">Marketplace</h4>
           <ul className="space-y-2 text-xs">
-            <li><Link href="/" className="hover:text-amber-400 transition">Today's Top 10 Showcase</Link></li>
+            <li><Link href="/" className="hover:text-amber-400 transition">Paid Top 10 Showcase</Link></li>
             <li><Link href="/#feed" className="hover:text-amber-400 transition">Discover Feed</Link></li>
-            <li><Link href="/list" className="hover:text-amber-400 transition">List Your Product ($49)</Link></li>
-            <li><Link href="/list?top10=true" className="hover:text-amber-400 transition">Claim Top 10 Spot ($99)</Link></li>
+            <li><Link href="/list" className="hover:text-amber-400 transition">List Your Product ($10)</Link></li>
+            <li><Link href="/list?top10=true" className="hover:text-amber-400 transition">Promote your product ($10)</Link></li>
           </ul>
         </div>
 

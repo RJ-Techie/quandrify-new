@@ -476,27 +476,8 @@ async function main() {
 
   console.log(`Created ${createdListings.length} listings.`);
 
-  // Assign Top 1 to Top 7 for today's pool
-  for (let pos = 1; pos <= 7; pos++) {
-    const listing = createdListings[pos - 1];
-    await prisma.dailySpot.create({
-      data: {
-        date: todayStr,
-        position: pos,
-        listingId: listing.id,
-      }
-    });
-    console.log(`Assigned Position #${pos} -> ${listing.title}`);
+  for (let pos=1;pos<=7;pos++) {
+    await prisma.payment.create({data:{listingId:createdListings[pos-1].id,amount:(8-pos)*1000,promotionalAmount:(8-pos)*1000,originalPromotionalAmount:(8-pos)*1000,currency:'usd',hasTop10Addon:true,status:'SUCCEEDED',fulfillmentStatus:'FULFILLED',paidAt:new Date()}});
   }
-
-  console.log('Database seed completed successfully!');
 }
-
-main()
-  .catch((e) => {
-    console.error('Seed error:', e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+main().catch(e=>{console.error(e);process.exitCode=1;}).finally(()=>prisma.$disconnect());

@@ -1,5 +1,5 @@
 'use client';
-import { startCheckout } from '@/lib/checkout';
+import RankingRules from './RankingRules';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -45,10 +45,6 @@ export default function ListingDetailClient({
 }: ListingDetailProps) {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
-  const upgradeProvider = 'stripe' as string;
-  const [managementTokenInput, setManagementTokenInput] = useState(listing.managementToken || '');
-  const [isSubmittingUpgrade, setIsSubmittingUpgrade] = useState(false);
-  const [upgradeErrorMsg, setUpgradeErrorMsg] = useState('');
 
   let publicMetrics: string[] = [];
   try {
@@ -80,40 +76,8 @@ export default function ListingDetailClient({
     .map((t: string) => t.trim())
     .filter(Boolean);
 
-  const handleExecuteTop10Upgrade = async (e: React.FormEvent) => {
-    e.preventDefault();
 
-    setIsSubmittingUpgrade(true);
-    setUpgradeErrorMsg('');
-
-    try {
-      // 1. Create upgrade order for listing
-      const res = await fetch('/api/listings/upgrade-top10', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          listingId: listing.id,
-          token: managementTokenInput.trim() || undefined,
-          provider: upgradeProvider,
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Failed to initialize Top 10 upgrade');
-      }
-
-      // 2. Route to checkout provider
-      await startCheckout(data.paymentId, managementTokenInput.trim());
-    } catch (err: any) {
-      setUpgradeErrorMsg(err.message || 'Error processing Top 10 payment.');
-      setIsSubmittingUpgrade(false);
-    }
-  };
-
-  // Determine if product is a newly listed product (within 7 days)
-  const dateStr = listing.publishedAt || listing.createdAt;
-  const isNew = dateStr ? (new Date().getTime() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24) <= 7 : false;
+  const isNew = Boolean(listing.publishedAt && Date.now() - new Date(listing.publishedAt).getTime() < 7 * 86400000);
 
   return (
     <div className="w-full max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8">
@@ -153,7 +117,7 @@ export default function ListingDetailClient({
                     ) : (
                       <Flame className="w-3.5 h-3.5 fill-slate-950" />
                     )}
-                    <span>TOP #{top10Spot.position} TODAY</span>
+                    <span>TOP #{top10Spot.position} PAID</span>
                   </span>
                 )}
               </div>
@@ -163,7 +127,7 @@ export default function ListingDetailClient({
             </div>
           </div>
 
-          {/* Action CTAs (Visit Website, Contact Seller, and $99 Top 10 Spot Option) */}
+          {/* Action CTAs (Visit Website, Contact Seller, and $10 Top 10 Spot Option) */}
           <div className="flex flex-col sm:flex-row lg:flex-col items-stretch gap-2.5 sm:gap-3 shrink-0 w-full lg:w-auto">
             {/* Primary Visit Website CTA */}
             <a
@@ -186,27 +150,27 @@ export default function ListingDetailClient({
               <span>Contact Seller</span>
             </button>
 
-            {/* TOP 10 SPOT OPTION ($99) NEXT TO CONTACT SELLER */}
+            {/* TOP 10 SPOT OPTION ($10) NEXT TO CONTACT SELLER */}
             {top10Spot ? (
-              // IF PAID TODAY: Show Active Badge & Disabled Button
+              // IF PAID PAID: Show Active Badge & Disabled Button
               <div className="px-4 py-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-extrabold text-center flex items-center justify-center gap-2 cursor-not-allowed">
                 <Crown className="w-4 h-4 text-amber-400 fill-amber-400 shrink-0" />
                 <span>Paid Today (Spot #{top10Spot.position} Active)</span>
               </div>
             ) : isTop10SoldOut ? (
-              // IF SOLD OUT TODAY: Show Sold Out Button
+              // IF SOLD OUT PAID: Show Sold Out Button
               <div className="px-4 py-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-500 text-xs font-bold text-center cursor-not-allowed">
-                Today's Top 10 SOLD OUT (Resets Midnight)
+                Paid Top 10 SOLD OUT (Resets Midnight)
               </div>
             ) : (
-              // IF NOT PAID TODAY: Show Active $99 Claim Spot Button (Re-enables every day automatically!)
+              // IF NOT PAID PAID: Show Active $10 Claim Spot Button (Re-enables every day automatically!)
               <button
                 type="button"
                 onClick={() => setIsClaimModalOpen(true)}
                 className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-black text-xs sm:text-sm px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl shadow-xl shadow-amber-500/25 hover:scale-105 active:scale-95 transition-all text-center"
               >
                 <Zap className="w-4 h-4 fill-slate-950 group-hover:rotate-12 transition-transform shrink-0" />
-                <span>Claim Top 10 Spot ($99)</span>
+                <span>Promote your product ($10)</span>
               </button>
             )}
           </div>
@@ -380,76 +344,8 @@ export default function ListingDetailClient({
         onClose={() => setIsContactOpen(false)}
       />
 
-      {/* Claim Top 10 Spot ($99) Modal */}
-      {isClaimModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
-          <div className="relative w-full max-w-lg rounded-3xl bg-slate-900 border border-amber-500/40 p-5 sm:p-8 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setIsClaimModalOpen(false)}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-full bg-slate-800/60 transition"
-            >
-              <X className="w-4 h-4" />
-            </button>
+      {isClaimModalOpen && <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80" role="dialog" aria-modal="true" aria-label="Promotional ranking rules"><div className="max-w-lg bg-slate-900 border border-amber-500/40 p-6 rounded-2xl space-y-4"><button aria-label="Close ranking rules" onClick={()=>setIsClaimModalOpen(false)} className="float-right p-2">✕</button><h2 className="text-xl font-bold">Promote your product</h2><RankingRules/><p className="text-sm text-slate-300">To add promotional credit or apply a coupon, open your private seller management link supplied after your listing payment. You must own the listing.</p><Link href="/list" className="text-amber-300 underline">Create a new listing — $10 USD</Link></div></div>}
 
-            <form onSubmit={handleExecuteTop10Upgrade} className="space-y-4 sm:space-y-5">
-              <div>
-                <div className="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">
-                  <Crown className="w-4 h-4 fill-amber-400" /> Daily Top 10 Placement
-                </div>
-                <h3 className="text-xl sm:text-2xl font-black text-white">Claim Today's Spot for {listing.title}</h3>
-                <p className="text-xs text-slate-400 mt-1">
-                  Upgrade for <strong className="text-amber-400">$99</strong> to claim the next available spot on today's featured homepage showcase (#1 to #10).
-                </p>
-              </div>
-
-              {upgradeErrorMsg && (
-                <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
-                  <span>{upgradeErrorMsg}</span>
-                </div>
-              )}
-
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1">Seller Management Key (Optional)</label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Auto-filled or enter token (optional)..."
-                    value={managementTokenInput}
-                    onChange={(e) => setManagementTokenInput(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 pl-10 text-xs text-white focus:outline-none focus:border-amber-500"
-                  />
-                  <Lock className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-300">Secure checkout in USD via Razorpay. Top 10 runs until midnight UTC; if today fills during checkout, placement moves to the next available day.</label>
-                <div className="grid grid-cols-2 gap-3">
-                  
-
-                  
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmittingUpgrade}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-black text-sm shadow-xl shadow-amber-500/25 transition flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                {isSubmittingUpgrade ? (
-                  <span>Processing Upgrade...</span>
-                ) : (
-                  <>
-                    <Zap className="w-4 h-4 fill-slate-950" />
-                    <span>Pay $99 & Claim Today's Spot</span>
-                  </>
-                )}
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

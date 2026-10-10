@@ -18,7 +18,7 @@ export default async function AdminSettingsPage() {
           <h1 className="text-2xl font-black text-white flex items-center gap-2">
             <Settings className="w-6 h-6 text-slate-400" /> Platform Configuration
           </h1>
-          <p className="text-xs text-slate-400 mt-1">Global marketplace prices and Top-10 spot settings.</p>
+          <p className="text-xs text-slate-400 mt-1">Listing fee and permanent promotional ranking rules.</p>
         </div>
       </div>
 
@@ -30,14 +30,14 @@ export default async function AdminSettingsPage() {
           <div className="space-y-3 text-xs text-slate-300">
             <div className="flex justify-between pb-2 border-b border-slate-800">
               <span>Standard Listing Fee</span>
-              <strong className="text-white">$49 USD</strong>
+              <strong className="text-white">$10 USD</strong>
             </div>
             <div className="flex justify-between pb-2 border-b border-slate-800">
-              <span>Daily Top 10 Add-on Fee</span>
-              <strong className="text-amber-400">$99 USD</strong>
+              <span>Paid Top 10 Add-on Fee</span>
+              <strong className="text-amber-400">$10 USD</strong>
             </div>
             <div className="flex justify-between">
-              <span>Max Top 10 Spots per Day</span>
+              <span>Permanent ranked positions</span>
               <strong className="text-white">10 Positions (#1 – #10)</strong>
             </div>
           </div>

@@ -1,4 +1,5 @@
 'use client';
+import RankingRules from './RankingRules';
 import { startCheckout } from '@/lib/checkout';
 
 import React, { useState } from 'react';
@@ -23,6 +24,8 @@ import {
 } from 'lucide-react';
 
 interface ManageClientProps {
+  currentCredit: number;
+  minimumToEnter: number;
   pendingPaymentId?: string;
   initialListing: any;
   token: string;
@@ -32,6 +35,8 @@ interface ManageClientProps {
 }
 
 export default function SellerManagementClient({
+  currentCredit,
+  minimumToEnter,
   pendingPaymentId,
   initialListing,
   token,
@@ -43,6 +48,8 @@ export default function SellerManagementClient({
   const [listing, setListing] = useState(initialListing);
   const [activeSpotPos, setActiveSpotPos] = useState<number | null>(todaySpotPosition);
   const [isSaving, setIsSaving] = useState(false);
+  const [couponCode,setCouponCode]=useState('');
+  const [accepted,setAccepted]=useState(false);
   const [isUpgrading, setIsUpgrading] = useState(false);
   const upgradeProvider = 'stripe' as string;
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -127,15 +134,16 @@ export default function SellerManagementClient({
   };
 
   const handleClaimTop10Upgrade = async () => {
+    if(!accepted){setMessage({type:'error',text:'Read and accept the ranking rules first.'});return;}
     setIsUpgrading(true);
     setMessage(null);
 
     try {
-      // 1. Create $99 Upgrade Payment Order
+      // 1. Create $10 Upgrade Payment Order
       const res = await fetch('/api/listings/upgrade-top10', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, provider: upgradeProvider }),
+        body: JSON.stringify({ token, couponCode }),
       });
 
       const data = await res.json();
@@ -197,74 +205,7 @@ export default function SellerManagementClient({
         </Link>
       </div>
 
-      {/* TOP 10 UPGRADE WIDGET ($99 Upgrade Flow) */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950/80 to-slate-900 border border-amber-500/40 p-6 sm:p-8 shadow-2xl space-y-4">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Zap className="w-5 h-5 text-amber-400 fill-amber-400" />
-              <h3 className="text-xl font-extrabold text-white">Daily Top 10 Showcase Placement</h3>
-            </div>
-
-            {activeSpotPos ? (
-              <p className="text-sm text-amber-300 font-bold flex items-center gap-1.5 mt-2">
-                {activeSpotPos <= 3 ? <Crown className="w-5 h-5 text-amber-400 fill-amber-400" /> : <Flame className="w-5 h-5 text-orange-400 fill-orange-400" />}
-                <span>You hold Spot #{activeSpotPos} in Today's Top 10 Showcase!</span>
-              </p>
-            ) : (
-              <p className="text-xs text-slate-300 max-w-xl leading-relaxed mt-1">
-                Your product is currently listed in the general directory. Claim today's next available Top 10 spot for <strong className="text-amber-400">$99</strong> to appear prominently on the homepage hero showcase!
-              </p>
-            )}
-          </div>
-
-          {!activeSpotPos && (
-            <span className="px-3 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0">
-              $99 ADD-ON
-            </span>
-          )}
-        </div>
-
-        {!activeSpotPos && (
-          <div className="pt-4 border-t border-slate-800 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              {/* Payment selector for upgrade */}
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-slate-400">Pay with Razorpay:</span>
-                
-                
-              </div>
-
-              {/* Upgrade CTA */}
-              {isTop10SoldOut ? (
-                <div className="px-5 py-2.5 rounded-xl bg-slate-800 text-slate-400 font-bold text-xs border border-slate-700">
-                  Today's Top 10 is SOLD OUT (Resets at Midnight)
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  disabled={isUpgrading}
-                  onClick={handleClaimTop10Upgrade}
-                  className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-black text-xs px-6 py-3 rounded-xl shadow-lg shadow-amber-500/25 active:scale-95 transition-all disabled:opacity-50"
-                >
-                  {isUpgrading ? (
-                    <span>Processing Upgrade...</span>
-                  ) : (
-                    <>
-                      <Zap className="w-4 h-4 fill-slate-950" />
-                      <span>Claim Top 10 Spot ($99)</span>
-                    </>
-                  )}
-                </button>
-              )}
-            </div>
-
-            <p className="text-[11px] text-slate-400">
-              Availability: <strong className="text-amber-400">{remainingTop10Spots} of 10 spots available</strong> today.
-            </p>
-          </div>
-        )}
-      </div>
+      <section className="p-6 rounded-2xl bg-slate-900 border border-amber-500/30 space-y-4"><h2 className="text-xl font-bold">Increase promotional ranking</h2><p>{activeSpotPos ? `Current paid Top 10 position: #${activeSpotPos}` : 'Currently outside the paid Top 10.'}</p><p className="text-sm text-amber-300">Your cumulative credit: ${(currentCredit/100).toFixed(2)} USD. Current credit needed to enter Top 10: ${(minimumToEnter/100).toFixed(2)} USD. This can change during checkout.</p><RankingRules/><label className="block">Optional coupon<input value={couponCode} onChange={e=>setCouponCode(e.target.value)} maxLength={40} className="block w-full p-3 bg-slate-950 border border-slate-700 rounded-lg"/></label><label className="flex gap-2"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)}/>I understand that my position can change and is not guaranteed.</label><button type="button" disabled={isUpgrading || listing.status !== 'PUBLISHED'} onClick={handleClaimTop10Upgrade} className="bg-amber-400 text-slate-950 font-bold rounded-lg p-3">{isUpgrading?'Processing...':'Add $10 promotional credit (before coupon)'}</button><p className="text-xs text-slate-400">Any coupon discount reduces your charge and promotional credit. Razorpay shows the exact amount before you pay.</p></section>
 
       {/* Seller Analytics Dashboard Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

@@ -44,10 +44,8 @@ export default async function AdminDashboardPage() {
 
   // Calculate Revenue
   const totalRevenue = totalPayments.reduce((acc, p) => acc + p.amount, 0) / 100;
-  const count49 = totalPayments.filter((p) => p.amount === 4900).length;
-  const count148 = totalPayments.filter((p) => p.amount === 14800).length;
-  const revenue49 = count49 * 49;
-  const revenue99 = count148 * 99;
+  const revenue49 = totalPayments.filter(p=>p.kind === 'LISTING').reduce((sum,p)=>sum+p.amount,0)/100;
+  const revenue99 = totalPayments.filter(p=>p.kind === 'PROMOTION').reduce((sum,p)=>sum+p.amount,0)/100;
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
@@ -69,19 +67,19 @@ export default async function AdminDashboardPage() {
           <span className="text-xs font-bold text-amber-400 uppercase tracking-wider block">Total Platform Revenue</span>
           <span className="text-4xl font-black text-white">${totalRevenue.toLocaleString()}</span>
           <div className="text-[11px] text-slate-400 pt-2 border-t border-slate-800 flex justify-between">
-            <span>$49 Listings: <strong>${revenue49}</strong></span>
-            <span>$99 Top 10: <strong>${revenue99}</strong></span>
+            <span>Listing payments: <strong>${revenue49}</strong></span>
+            <span>Promotion upgrades: <strong>${revenue99}</strong></span>
           </div>
         </div>
 
         <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-xl space-y-2">
-          <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider block">Today's Top 10 Occupancy</span>
+          <span className="text-xs font-bold text-indigo-400 uppercase tracking-wider block">Paid Top 10 Occupancy</span>
           <span className="text-4xl font-black text-white">{todayPool.claimedSlots} / 10</span>
           <p className="text-[11px] text-slate-400 pt-2 border-t border-slate-800">
             {todayPool.isSoldOut ? (
               <span className="text-rose-400 font-bold">SOLD OUT</span>
             ) : (
-              <span>{todayPool.remainingSlots} spots remaining today</span>
+              <span>{todayPool.remainingSlots} currently empty positions</span>
             )}
           </p>
         </div>

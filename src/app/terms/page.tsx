@@ -48,8 +48,8 @@ export default function TermsOfServicePage() {
           </h2>
           <p>Quandrify operates as a direct-listing marketplace for startups, SaaS tools, and AI products:</p>
           <ul className="list-disc pl-5 space-y-1 text-slate-400">
-            <li><strong>Standard Listing Fee ($49 USD):</strong> Required fee for permanent directory publishing, search indexing, and buyer inquiry proxying.</li>
-            <li><strong>Top 10 Daily Showcase Fee ($99 USD):</strong> Optional promotional add-on fee to feature a listing on today's homepage showcase leaderboard (#1 to #10).</li>
+            <li><strong>Standard Listing Fee ($10 USD):</strong> Required fee for permanent directory publishing, search indexing, and buyer inquiry proxying.</li>
+            <li><strong>Promotional upgrade ($10 USD):</strong> Additional cumulative promotional credit. No position is guaranteed.</li>
           </ul>
         </section>
 
@@ -59,12 +59,12 @@ export default function TermsOfServicePage() {
             <CheckCircle2 className="w-5 h-5 text-indigo-400" /> 3. Top 10 Showcase Promotional Rules
           </h2>
           <p>
-            Top-10 placements are paid promotional showcase slots allocated on a first-come, first-served basis for a 24-hour UTC cycle:
+            Top 10 ranks published products by cumulative successful promotional payments after discounts. There is no duration or reset:
           </p>
           <ul className="list-disc pl-5 space-y-1 text-slate-400">
             <li>Top-10 positions are paid promotional placements and do not represent editorial endorsement, official awards, or independent quality rankings.</li>
-            <li>Each daily pool contains exactly 10 positions (#1 to #10). Allocation resets automatically at UTC midnight.</li>
-            <li>Sellers can claim a new Top 10 placement daily for active promotional visibility.</li>
+            <li>Higher cumulative amounts rank first; ties rank by the time the total was reached. A higher-paying product can displace another immediately.</li>
+            <li>Listing payments contribute promotional credit. Sellers can pay another $10 to increase their total. Coupons reduce both charges and ranking credit; refunded payments do not count.</li>
           </ul>
         </section>
 

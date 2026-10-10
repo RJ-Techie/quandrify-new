@@ -21,11 +21,15 @@ export async function POST(req: Request) {
       const remote = await razorpay(`payments/${encodeURIComponent(refund.payment_id)}`);
       const payment = await db.payment.findUnique({ where: { razorpayPaymentId: remote.id } });
       if (!payment) throw new Error('Unknown refund payment');
+      if (remote.amount_refunded > 0 && remote.amount_refunded < payment.amount) {
+        const originalCredit = payment.originalPromotionalAmount;
+        await db.payment.update({ where: { id: payment.id }, data: { promotionalAmount: Math.max(0, originalCredit - remote.amount_refunded) } });
+      }
       if (remote.amount_refunded >= payment.amount) {
         await db.$transaction(async tx => {
           await tx.payment.update({ where: { id: payment.id }, data: { status: 'REFUNDED' } });
           await tx.dailySpot.deleteMany({ where: { paymentId: payment.id } });
-          if (payment.amount !== 9900) await tx.listing.update({ where: { id: payment.listingId }, data: { status: 'ARCHIVED' } });
+          if (payment.kind === 'LISTING') await tx.listing.update({ where: { id: payment.listingId }, data: { status: 'ARCHIVED' } });
         });
       }
     }

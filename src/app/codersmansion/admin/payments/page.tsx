@@ -24,7 +24,7 @@ export default async function AdminPaymentsPage() {
           <h1 className="text-2xl font-black text-white flex items-center gap-2">
             <CreditCard className="w-6 h-6 text-amber-400" /> Platform Payments
           </h1>
-          <p className="text-xs text-slate-400 mt-1">Transaction audit trail for $49 standard listings and $99 Top-10 add-ons.</p>
+          <p className="text-xs text-slate-400 mt-1">Transaction audit trail for $10 standard listings and $10 Top-10 add-ons.</p>
         </div>
       </div>
 
@@ -48,10 +48,10 @@ export default async function AdminPaymentsPage() {
                 <td className="p-4">
                   {p.hasTop10Addon ? (
                     <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold">
-                      + $99 TOP 10 (# {p.top10PositionAssigned || 'Allocated'})
+                      Paid promotional credit: ${(p.promotionalAmount / 100).toFixed(2)}
                     </span>
                   ) : (
-                    <span className="text-slate-500">Standard $49</span>
+                    <span className="text-slate-500">Listing payment</span>
                   )}
                 </td>
                 <td className="p-4">

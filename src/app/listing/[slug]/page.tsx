@@ -45,22 +45,13 @@ export default async function ListingDetailPage({ params }: ListingPageProps) {
     notFound();
   }
 
-  const todayStr = getTodayDateString();
-  const [todayPool, top10Spot] = await Promise.all([
-    getTodayTop10Pool(),
-    db.dailySpot.findFirst({
-      where: {
-        listingId: listing.id,
-        date: todayStr,
-      },
-      select: { position: true },
-    }),
-  ]);
+  const todayPool = await getTodayTop10Pool();
+  const top10Spot = todayPool.spots.find(s=>s.listingId === listing.id);
 
   return (
     <ListingDetailClient
       listing={listing}
-      top10Spot={top10Spot}
+      top10Spot={top10Spot || null}
       remainingTop10Spots={todayPool.remainingSlots}
       isTop10SoldOut={todayPool.isSoldOut}
     />
