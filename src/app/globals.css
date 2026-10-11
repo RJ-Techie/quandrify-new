@@ -73,3 +73,9 @@ body {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+.ticker-track:focus-within { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+ .ticker-track { animation: none; width: 100%; overflow-x: auto; }
+ .ticker-track > div[aria-hidden="true"] { display: none; }
+}

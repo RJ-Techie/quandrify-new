@@ -261,3 +261,9 @@ model ListingReport {
  createdAt DateTime @default(now())
  @@index([status, createdAt])
 }
+
+model VisitorPresence {
+ id String @id
+ lastSeen DateTime
+ @@index([lastSeen])
+}

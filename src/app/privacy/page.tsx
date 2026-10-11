@@ -43,6 +43,7 @@ export default function PrivacyPolicyPage() {
             <li><strong>Listing Data:</strong> Product name, tagline, description, website URL, logo image, category, technology stack, and public financial metrics provided by sellers.</li>
             <li><strong>Contact Information:</strong> Contact name, verified email address, and optional phone number submitted during product creation or buyer inquiry forms.</li>
             <li><strong>Payment & Transaction Tokens:</strong> Payment processor transaction tokens generated via Razorpay. <em>We do not collect or store full credit card numbers or banking passwords.</em></li>
+            <li><strong>Live visitor estimate:</strong> A random browser cookie lasts one day and helps count browsers active in the last two minutes. It is shared across tabs and is not linked to seller accounts. Expired presence records are removed during subsequent activity requests. Hashed IP-based counters limit requests.</li>
             <li><strong>Analytics & Technical Data:</strong> Aggregated page views, click counts, browser user agent strings, and IP addresses for security auditing.</li>
           </ul>
         </section>

@@ -65,3 +65,7 @@ Deploy all updated source files and the new `20261011130000_discovery_tools` mig
 - Sponsored popups: the newest active popup appears only after a visitor scrolls 700 pixels, once per session, with explicit Sponsored labeling and a close button/Escape support. It does not interrupt the initial discovery view.
 
 These changes aim to make browsing more useful. Increased retention is not proven by implementation alone; measure visits, saved-product usage and product exploration after launch.
+
+### Live ticker and rules popup
+The top banner shows the six newest published listings and estimates active browsers from visible-tab heartbeats every 30 seconds, with a two-minute activity window. A random HttpOnly cookie deduplicates tabs; this is a browser estimate and may include bots, not verified people. No invented fallback counts are displayed. Hidden tabs stop heartbeats; admin and seller-management routes do not register presence. Deploy the VisitorPresence migration before use.
+Rules / How it works opens an accessible native dialog from the header and existing ranking-rule locations. Escape, close buttons and clicks outside dismiss it. The ticker pauses on hover/focus and respects reduced motion.

@@ -36,3 +36,5 @@ Listing refresh fix: TypeScript and a clean production build passed. Refresh tri
 - Browser interaction testing was attempted, but Chromium was unavailable in the runtime. No screenshot, mobile overflow, save persistence or upload-browser pass is claimed. The temporary fixture route was removed from the source package.
 - No production database or credentials were accessed. Apply the migration and verify file upload/storage, transactional email queue/lease behavior, admin authorization/editing, report moderation, load-more browsing and actual Resend delivery on the deployed environment. Existing live Razorpay and refund verification requirements remain.
 - Media has bounded launch capacity and anonymous-upload rate limits; storage is intentionally documented rather than presented as unlimited.
+
+Banner/rules update: 17 tests pass, including mocked presence API origin enforcement, cookie reuse, active-window count query and public ticker field selection. Production build validates TypeScript. Actual browser dialog interaction, PostgreSQL migration and multi-browser visitor counts still require deployed verification.
