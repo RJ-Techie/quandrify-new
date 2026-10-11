@@ -38,13 +38,13 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
       <div className="text-center mb-6 sm:mb-8 space-y-2">
         <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-indigo-500/20 border border-amber-500/40 text-amber-300 text-[10px] sm:text-xs font-black tracking-wide uppercase shadow-lg max-w-full truncate">
           <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse shrink-0" />
-          <span className="truncate">SPONSORED • RANKED BY PROMOTIONAL PAYMENTS</span>
+          <span className="truncate">SPONSORED • RANKED BY PROMOTIONAL CREDIT</span>
         </div>
         <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
           Sponsored <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-400 via-orange-400 to-indigo-400">Featured Top 10 Showcase</span>
         </h1>
         <p className="text-slate-300 text-xs sm:text-base max-w-2xl mx-auto font-medium leading-relaxed">
-          Get maximum viral exposure, attract active buyers, and capture investor attention. Spot #1 gets prime hero placement across the platform.
+          Discover featured products from independent builders. Rankings use paid promotional credit and admin grants, with no expiry or reset.
         </p>
       </div>
 
@@ -59,7 +59,7 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
               <div className="flex items-center justify-between gap-2.5 sm:gap-4 mb-4 sm:mb-6">
                 <span className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black text-xs sm:text-sm tracking-wide shadow-lg shadow-amber-500/25">
                   <Crown className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-slate-950 shrink-0" />
-                  <span>👑 #1 PAID • VIRAL HERO</span>
+                  <span>👑 #1 SPONSORED • FEATURED</span>
                 </span>
                 <span className="text-[10px] sm:text-xs text-amber-400 font-semibold uppercase tracking-wider bg-amber-400/10 px-2.5 sm:px-3 py-1 rounded-full border border-amber-400/20 shrink-0">
                   {spot1.category}
@@ -98,7 +98,7 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
                   </div>
                   <div className="flex items-center gap-1.5 bg-slate-900/90 border border-purple-500/30 px-2.5 py-1 rounded-lg text-xs font-semibold text-purple-300">
                     <Users className="w-3.5 h-3.5 text-purple-400" />
-                    <span>{spot1.customersCount || spot1.payingCustomersCount || spot1.usersCount || 'Not shared'} Active Users</span>
+                    <span>{spot1.customersCount || spot1.payingCustomersCount || spot1.usersCount || 'Not shared'} Users / customers</span>
                   </div>
                 </div>
               </div>
@@ -138,7 +138,7 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
                 </div>
                 <h3 className="text-xl sm:text-2xl font-black text-white">Position #1 is currently empty</h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  List your product to enter the paid ranking. Your position depends on cumulative promotional payments.
+                  List your product to enter the paid ranking. Your position depends on cumulative promotional credit.
                 </p>
               </div>
               <div className="pt-4 border-t border-slate-800">
@@ -162,7 +162,7 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3 sm:mb-4">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-300 text-slate-950 font-black text-[11px] sm:text-xs tracking-wide">
-                    🥈 #2 PAID
+                    🥈 #2 SPONSORED
                   </span>
                   <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium uppercase bg-slate-800 px-2.5 py-0.5 rounded-full">
                     {spot2.category}
@@ -185,7 +185,7 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
                         <DollarSign className="w-3 h-3" /> {spot2.mrr || 'Not shared'} MRR
                       </span>
                       <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 font-semibold flex items-center gap-1">
-                        <Users className="w-3 h-3 text-purple-400" /> {spot2.customersCount || spot2.payingCustomersCount || spot2.usersCount || 'Not shared'} Active Users
+                        <Users className="w-3 h-3 text-purple-400" /> {spot2.customersCount || spot2.payingCustomersCount || spot2.usersCount || 'Not shared'} Users / customers
                       </span>
                     </div>
                   </div>
@@ -207,13 +207,13 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
             <div className="relative group rounded-3xl bg-slate-900/40 border border-dashed border-slate-700/80 p-5 shadow-lg flex-1 flex flex-col justify-between text-center">
               <div className="flex items-center justify-between gap-2 mb-2">
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 font-bold text-xs">
-                  🥈 #2 PAID • AVAILABLE
+                  🥈 #2 SPONSORED • AVAILABLE
                 </span>
                 <span className="text-xs font-bold text-amber-400">$10</span>
               </div>
               <div className="my-2">
                 <h4 className="text-sm font-bold text-white">Rank #2 Available</h4>
-                <p className="text-xs text-slate-400">Position depends on cumulative promotional payments.</p>
+                <p className="text-xs text-slate-400">Position depends on cumulative promotional credit.</p>
               </div>
               <Link
                 href="/list?top10=true"
@@ -231,7 +231,7 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3 sm:mb-4">
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-700 text-amber-100 font-black text-[11px] sm:text-xs tracking-wide">
-                    🥉 #3 PAID
+                    🥉 #3 SPONSORED
                   </span>
                   <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium uppercase bg-slate-800 px-2.5 py-0.5 rounded-full">
                     {spot3.category}
@@ -254,7 +254,7 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
                         <DollarSign className="w-3 h-3" /> {spot3.mrr || 'Not shared'} MRR
                       </span>
                       <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 font-semibold flex items-center gap-1">
-                        <Users className="w-3 h-3 text-purple-400" /> {spot3.customersCount || spot3.payingCustomersCount || spot3.usersCount || 'Not shared'} Active Users
+                        <Users className="w-3 h-3 text-purple-400" /> {spot3.customersCount || spot3.payingCustomersCount || spot3.usersCount || 'Not shared'} Users / customers
                       </span>
                     </div>
                   </div>
@@ -276,13 +276,13 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
             <div className="relative group rounded-3xl bg-slate-900/40 border border-dashed border-amber-900/40 p-5 shadow-lg flex-1 flex flex-col justify-between text-center">
               <div className="flex items-center justify-between gap-2 mb-2">
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-900/50 text-amber-200 font-bold text-xs">
-                  🥉 #3 PAID • AVAILABLE
+                  🥉 #3 SPONSORED • AVAILABLE
                 </span>
                 <span className="text-xs font-bold text-amber-400">$10</span>
               </div>
               <div className="my-2">
                 <h4 className="text-sm font-bold text-white">Rank #3 Available</h4>
-                <p className="text-xs text-slate-400">Position depends on cumulative promotional payments.</p>
+                <p className="text-xs text-slate-400">Position depends on cumulative promotional credit.</p>
               </div>
               <Link
                 href="/list?top10=true"

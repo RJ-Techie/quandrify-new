@@ -37,7 +37,7 @@ export default function Top10RemainingGrid({ remainingSpots }: Top10RemainingGri
             <span>Top 10 Remaining Ranks (#4 – #10)</span>
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Sponsored positions ranked by cumulative promotional payments.
+            Sponsored positions ranked by cumulative promotional credit.
           </p>
         </div>
         <span className="text-xs font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full shrink-0">
@@ -77,13 +77,13 @@ export default function Top10RemainingGrid({ remainingSpots }: Top10RemainingGri
                     </div>
                   </div>
 
-                  {/* MRR & Active Users Metric Badges */}
+                  {/* MRR & Users / customers Metric Badges */}
                   <div className="mt-3 pt-2.5 border-t border-slate-800/60 flex items-center gap-1.5 flex-wrap text-[11px]">
                     <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold flex items-center gap-1">
                       <DollarSign className="w-3 h-3" /> {listing.mrr || 'Not shared'} MRR
                     </span>
                     <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 font-semibold flex items-center gap-1">
-                      <Users className="w-3 h-3 text-purple-400" /> {listing.customersCount || listing.payingCustomersCount || listing.usersCount || 'Not shared'} active users
+                      <Users className="w-3 h-3 text-purple-400" /> {listing.customersCount || listing.payingCustomersCount || listing.usersCount || 'Not shared'} users / customers
                     </span>
                   </div>
                 </div>
