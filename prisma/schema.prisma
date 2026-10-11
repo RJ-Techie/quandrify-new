@@ -94,6 +94,8 @@ model Listing {
   createdAt             DateTime          @default(now())
   updatedAt             DateTime          @updatedAt
 
+  sellerEmail           SellerEmail?
+  reports               ListingReport[]
   dailySpots            DailySpot[]
   payments              Payment[]
   contactMessages       ContactMessage[]
@@ -231,4 +233,31 @@ model SponsoredAd {
  targetUrl String
  active Boolean @default(true)
  createdAt DateTime @default(now())
+}
+
+model MediaAsset {
+ id String @id @default(uuid())
+ mime String
+ bytes Bytes
+ createdAt DateTime @default(now())
+}
+model SellerEmail {
+ listingId String @id
+ listing Listing @relation(fields:[listingId],references:[id],onDelete:Cascade)
+ status String @default("PENDING")
+ attempts Int @default(0)
+ sendingAt DateTime?
+ sentAt DateTime?
+ lastError String?
+ createdAt DateTime @default(now())
+}
+model ListingReport {
+ id String @id @default(uuid())
+ listingId String
+ listing Listing @relation(fields:[listingId],references:[id],onDelete:Cascade)
+ reason String
+ details String
+ status String @default("OPEN")
+ createdAt DateTime @default(now())
+ @@index([status, createdAt])
 }

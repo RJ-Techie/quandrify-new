@@ -16,3 +16,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, url: `/list/success?payment_id=${payment.id}&token=${encodeURIComponent(token)}` });
   } catch (error) { console.error(error); return NextResponse.json({ error: 'Confirmation pending. Your payment will be reconciled by webhook; retain your seller link.' }, { status: 409 }); }
 }
+
+export const maxDuration=60;

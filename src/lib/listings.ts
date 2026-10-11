@@ -35,13 +35,13 @@ export async function getPaginatedListings({
   if (search && search.trim() !== '') {
     const query = search.trim();
     whereClause.OR = [
-      { title: { contains: query } },
-      { tagline: { contains: query } },
-      { shortDescription: { contains: query } },
-      { category: { contains: query } },
-      { companyName: { contains: query } },
-      { techFrontend: { contains: query } },
-      { techBackend: { contains: query } },
+      { title: { contains: query, mode: 'insensitive' } },
+      { tagline: { contains: query, mode: 'insensitive' } },
+      { shortDescription: { contains: query, mode: 'insensitive' } },
+      { category: { contains: query, mode: 'insensitive' } },
+      { companyName: { contains: query, mode: 'insensitive' } },
+      { techFrontend: { contains: query, mode: 'insensitive' } },
+      { techBackend: { contains: query, mode: 'insensitive' } },
     ];
   }
 
@@ -59,7 +59,7 @@ export async function getPaginatedListings({
       where: whereClause,
       skip,
       take: pageSize,
-      orderBy,
+      orderBy: [orderBy, {id:'asc'}],
     }),
     db.listing.count({ where: whereClause })
   ]);

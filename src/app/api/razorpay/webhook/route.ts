@@ -36,3 +36,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true });
   } catch (error) { console.error(error); return NextResponse.json({ error: 'Processing failed; retry' }, { status: 500 }); }
 }
+
+export const maxDuration=60;

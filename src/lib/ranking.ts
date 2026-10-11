@@ -18,3 +18,9 @@ export function mergeRankingCredits(scores: {id:string;amount:number;reachedAt:n
  for(const grant of grants){const score=totals.get(grant.id) || {id:grant.id,amount:0,reachedAt:0};score.amount+=grant.amount;score.reachedAt=Math.max(score.reachedAt,grant.grantedAt);totals.set(grant.id,score);}
  return [...totals.values()].filter(score=>score.amount>0).sort((a,b)=>b.amount-a.amount || a.reachedAt-b.reachedAt || a.id.localeCompare(b.id));
 }
+
+export function rankingPreview(scores:{id:string;amount:number;reachedAt:number}[], id:string) {
+ const index=scores.findIndex(s=>s.id===id);const currentCredit=index<0?0:scores[index].amount;
+ const additional=(target:number)=>Math.ceil(Math.max(0,target+1-currentCredit)/1000)*1000;
+ return {rank:index<0?null:index+1,currentCredit,additionalForNext:index===0?0:index>0?additional(scores[index-1].amount):1000,additionalForTop10:index>=0&&index<10?0:scores.length<10?1000:additional(scores[9].amount)};
+}

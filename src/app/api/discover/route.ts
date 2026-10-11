@@ -1,0 +1,6 @@
+import { NextResponse } from 'next/server';
+import { getPaginatedListings } from '@/lib/listings';
+import { db } from '@/lib/db';
+import { publicListing } from '@/lib/publicListing';
+export const dynamic='force-dynamic';
+export async function GET(req:Request){try{const params=new URL(req.url).searchParams;const ids=params.get('ids');if(ids!==null){const list=ids.split(',').filter(Boolean);if(list.length>100||list.some(id=>!/^[-a-f0-9]{36}$/.test(id)))return NextResponse.json({error:'Invalid saved products'},{status:400});const rows=await db.listing.findMany({where:{id:{in:list},status:'PUBLISHED'}});return NextResponse.json({listings:rows.map(publicListing)});}const exclude=(params.get('exclude') || '').split(',').filter(Boolean);if(exclude.length>30||exclude.some(id=>!/^[-a-f0-9]{36}$/.test(id)))return NextResponse.json({error:'Invalid filters'},{status:400});const result=await getPaginatedListings({page:Number(params.get('page') || 1),pageSize:24,category:(params.get('category') || 'All').slice(0,100),search:(params.get('search') || '').slice(0,150),sortBy:params.get('sort') || 'newest',excludeIds:exclude});return NextResponse.json(result,{headers:{'Cache-Control':'no-store'}});}catch{return NextResponse.json({error:'Unable to load products'},{status:503});}}

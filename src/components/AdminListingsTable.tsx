@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Eye, CheckCircle, Ban, Archive, Star, ExternalLink, Shield } from 'lucide-react';
 
 export default function AdminListingsTable({ initialListings }: { initialListings: any[] }) {
   const [listings, setListings] = useState(initialListings);
+  useEffect(() => { setListings(initialListings); }, [initialListings]);
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
   const handleAction = async (listingId: string, action: string) => {
@@ -53,7 +54,7 @@ export default function AdminListingsTable({ initialListings }: { initialListing
                   <img src={item.logoUrl} alt={item.title} className="w-9 h-9 rounded-xl object-cover bg-slate-950 border border-slate-800" />
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-white text-sm">{item.title}</span>
+                      <Link href={`/codersmansion/admin/listings/${item.id}`} className="font-bold text-indigo-300 text-sm underline">{item.title} · Edit</Link>
                       {item.isFeatured && (
                         <span className="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-extrabold">
                           FEATURED

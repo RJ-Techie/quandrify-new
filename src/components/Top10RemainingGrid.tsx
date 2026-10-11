@@ -80,10 +80,10 @@ export default function Top10RemainingGrid({ remainingSpots }: Top10RemainingGri
                   {/* MRR & Active Users Metric Badges */}
                   <div className="mt-3 pt-2.5 border-t border-slate-800/60 flex items-center gap-1.5 flex-wrap text-[11px]">
                     <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold flex items-center gap-1">
-                      <DollarSign className="w-3 h-3" /> {listing.mrr || '$15,200'} MRR
+                      <DollarSign className="w-3 h-3" /> {listing.mrr || 'Not shared'} MRR
                     </span>
                     <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 font-semibold flex items-center gap-1">
-                      <Users className="w-3 h-3 text-purple-400" /> {listing.customersCount || listing.payingCustomersCount || listing.usersCount || '280'} active users
+                      <Users className="w-3 h-3 text-purple-400" /> {listing.customersCount || listing.payingCustomersCount || listing.usersCount || 'Not shared'} active users
                     </span>
                   </div>
                 </div>

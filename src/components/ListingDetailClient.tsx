@@ -176,32 +176,8 @@ export default function ListingDetailClient({
           </div>
         </div>
 
-        {/* Financial & Traction Metrics Row (Always displayed) */}
-        <div className="pt-6 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-          <div className="p-3 sm:p-4 rounded-2xl bg-slate-950/80 border border-slate-800">
-            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Monthly Revenue (MRR)</span>
-            <span className="text-lg sm:text-xl font-black text-emerald-400 mt-0.5 block">{listing.mrr || '$12,500'}</span>
-          </div>
+        {(showMrr || showArr || showUsers || showCustomers) && <div className="pt-5 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-3">{[['mrr','Monthly revenue'],['arr','Annual revenue'],['usersCount','Users'],['customersCount','Customers']].filter(([key])=>publicMetrics.includes(key) && listing[key]).map(([key,label])=><div key={key} className="p-4 bg-slate-950 rounded-xl"><p className="text-xs text-slate-400">{label}</p><strong className="block mt-1 text-lg text-indigo-300">{listing[key]}</strong><span className="text-[10px] text-slate-500">Seller reported</span></div>)}</div>}
 
-          <div className="p-3 sm:p-4 rounded-2xl bg-slate-950/80 border border-slate-800">
-            <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Active Users</span>
-            <span className="text-lg sm:text-xl font-black text-purple-300 mt-0.5 block">{listing.customersCount || listing.payingCustomersCount || listing.usersCount || '350'}</span>
-          </div>
-
-          {listing.arr && (
-            <div className="p-3 sm:p-4 rounded-2xl bg-slate-950/80 border border-slate-800">
-              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Annual Revenue (ARR)</span>
-              <span className="text-lg sm:text-xl font-black text-emerald-300 mt-0.5 block">{listing.arr}</span>
-            </div>
-          )}
-
-          {listing.usersCount && (
-            <div className="p-3 sm:p-4 rounded-2xl bg-slate-950/80 border border-slate-800">
-              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Active Users</span>
-              <span className="text-lg sm:text-xl font-black text-indigo-300 mt-0.5 block">{listing.usersCount}</span>
-            </div>
-          )}
-        </div>
       </div>
 
       {/* Main Grid Content */}

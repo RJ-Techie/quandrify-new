@@ -2,6 +2,8 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
 import { getTodayTop10Pool, getTodayDateString } from '@/lib/top10';
+import { getRankingScores } from '@/lib/top10';
+import { rankingPreview } from '@/lib/ranking';
 import SellerManagementClient from '@/components/SellerManagementClient';
 
 export const revalidate = 0;
@@ -27,6 +29,7 @@ export default async function ManagePage({ params }: ManagePageProps) {
 
   return (
     <SellerManagementClient
+      rankingPreview={rankingPreview(await getRankingScores(),listing.id)}
       pendingPaymentId={(await db.payment.findFirst({ where: { listingId: listing.id, status: 'PENDING' }, orderBy: { createdAt: 'desc' } }))?.id}
       currentCredit={listing.adminPromotionalCredit + ((await db.payment.aggregate({where:{listingId:listing.id,status:'SUCCEEDED'},_sum:{promotionalAmount:true}}))._sum.promotionalAmount || 0)}
       minimumToEnter={todayPool.minimumToEnter}

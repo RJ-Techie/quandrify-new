@@ -1,0 +1,4 @@
+import { NextResponse } from 'next/server';
+import { verifyAdminAuth } from '@/lib/adminAuth';
+import { db } from '@/lib/db';
+export async function POST(req:Request){const admin=await verifyAdminAuth();if(!admin)return NextResponse.json({error:'Unauthorized'},{status:401});if(req.headers.get('origin')!==new URL(process.env.NEXT_PUBLIC_APP_URL || req.url).origin)return NextResponse.json({error:'Invalid origin'},{status:403});try{const {id,status}=await req.json();if(typeof id!=='string'||!['RESOLVED','DISMISSED'].includes(status))return NextResponse.json({error:'Invalid action'},{status:400});await db.$transaction([db.listingReport.update({where:{id},data:{status}}),db.auditLog.create({data:{actor:admin.email,action:'MODERATE_REPORT',details:JSON.stringify({id,status})}})]);return NextResponse.json({success:true});}catch{return NextResponse.json({error:'Unable to update report'},{status:500});}}

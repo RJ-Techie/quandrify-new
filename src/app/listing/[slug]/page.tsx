@@ -4,6 +4,10 @@ import { getListingBySlug } from '@/lib/listings';
 import { db } from '@/lib/db';
 import { getTodayDateString, getTodayTop10Pool } from '@/lib/top10';
 import ListingDetailClient from '@/components/ListingDetailClient';
+import ListingCard from '@/components/ListingCard';
+import SaveProduct from '@/components/SaveProduct';
+import ReportListing from '@/components/ReportListing';
+import { publicListing } from '@/lib/publicListing';
 import type { Metadata } from 'next';
 
 export const revalidate = 0;
@@ -48,12 +52,13 @@ export default async function ListingDetailPage({ params }: ListingPageProps) {
   const todayPool = await getTodayTop10Pool();
   const top10Spot = todayPool.spots.find(s=>s.listingId === listing.id);
 
+  const related=await db.listing.findMany({where:{status:'PUBLISHED',category:listing.category,id:{not:listing.id}},orderBy:{publishedAt:'desc'},take:3});
   return (
-    <ListingDetailClient
+    <><ListingDetailClient
       listing={listing}
       top10Spot={top10Spot || null}
       remainingTop10Spots={todayPool.remainingSlots}
       isTop10SoldOut={todayPool.isSoldOut}
-    />
+    /><section className="max-w-5xl mx-auto px-4 pb-10 space-y-5"><SaveProduct id={listing.id}/><ReportListing listingId={listing.id}/>{related.length>0&&<div className="space-y-4 pt-6"><h2 className="text-2xl font-bold">More in {listing.category}</h2><div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{related.map(l=><ListingCard key={l.id} listing={publicListing(l)}/>)}</div></div>}</section></>
   );
 }

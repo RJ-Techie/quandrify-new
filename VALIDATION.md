@@ -25,3 +25,14 @@ Authenticated creation, field validation, Premium grant validation and transacti
 Admin grant eligibility, dollar validation and displacement/combined credit tests added. Final checks include eleven automated tests.
 
 Admin listing release: Prisma generation, TypeScript, eleven tests and production build passed. Live database/admin browser checks were not run.
+
+Listing refresh fix: TypeScript and a clean production build passed. Refresh triggers, 15-second visible-page polling, cross-tab notification and refreshed admin row synchronization are implemented. Browser behavior on the deployed database has not been exercised.
+
+## Discovery and seller tools release checks
+
+- Prisma client generation and TypeScript checks passed.
+- Sixteen tests pass, including rendering cards to verify private metrics are hidden, file header/size checks, report validation, ranking ties/discount estimates and mocked seller-email success/idempotency/failure paths.
+- Production build passed after implementing the new routes and components; the final clean build passed after the homepage and accessibility adjustments.
+- Browser interaction testing was attempted, but Chromium was unavailable in the runtime. No screenshot, mobile overflow, save persistence or upload-browser pass is claimed. The temporary fixture route was removed from the source package.
+- No production database or credentials were accessed. Apply the migration and verify file upload/storage, transactional email queue/lease behavior, admin authorization/editing, report moderation, load-more browsing and actual Resend delivery on the deployed environment. Existing live Razorpay and refund verification requirements remain.
+- Media has bounded launch capacity and anonymous-upload rate limits; storage is intentionally documented rather than presented as unlimited.

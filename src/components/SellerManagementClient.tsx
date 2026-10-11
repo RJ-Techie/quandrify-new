@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 
 interface ManageClientProps {
+  rankingPreview: {rank:number|null;currentCredit:number;additionalForNext:number;additionalForTop10:number};
   currentCredit: number;
   minimumToEnter: number;
   pendingPaymentId?: string;
@@ -35,6 +36,7 @@ interface ManageClientProps {
 }
 
 export default function SellerManagementClient({
+  rankingPreview,
   currentCredit,
   minimumToEnter,
   pendingPaymentId,
@@ -205,7 +207,7 @@ export default function SellerManagementClient({
         </Link>
       </div>
 
-      <section className="p-6 rounded-2xl bg-slate-900 border border-amber-500/30 space-y-4"><h2 className="text-xl font-bold">Increase promotional ranking</h2><p>{activeSpotPos ? `Current paid Top 10 position: #${activeSpotPos}` : 'Currently outside the paid Top 10.'}</p><p className="text-sm text-amber-300">Your cumulative credit: ${(currentCredit/100).toFixed(2)} USD. Current credit needed to enter Top 10: ${(minimumToEnter/100).toFixed(2)} USD. This can change during checkout.</p><RankingRules/><label className="block">Optional coupon<input value={couponCode} onChange={e=>setCouponCode(e.target.value)} maxLength={40} className="block w-full p-3 bg-slate-950 border border-slate-700 rounded-lg"/></label><label className="flex gap-2"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)}/>I understand that my position can change and is not guaranteed.</label><button type="button" disabled={isUpgrading || listing.status !== 'PUBLISHED'} onClick={handleClaimTop10Upgrade} className="bg-amber-400 text-slate-950 font-bold rounded-lg p-3">{isUpgrading?'Processing...':'Add $10 promotional credit (before coupon)'}</button><p className="text-xs text-slate-400">Any coupon discount reduces your charge and promotional credit. Razorpay shows the exact amount before you pay.</p></section>
+      <section className="p-6 rounded-2xl bg-slate-900 border border-amber-500/30 space-y-4"><h2 className="text-xl font-bold">Increase promotional ranking</h2><p>{activeSpotPos ? `Current paid Top 10 position: #${activeSpotPos}` : 'Currently outside the paid Top 10.'}</p><p className="text-sm text-amber-300">Your cumulative credit: ${(currentCredit/100).toFixed(2)} USD. Current credit needed to enter Top 10: ${(minimumToEnter/100).toFixed(2)} USD. This can change during checkout.</p><div className="grid sm:grid-cols-3 gap-3 text-sm"><p>Overall rank: <strong>{rankingPreview.rank?`#${rankingPreview.rank}`:'Not ranked'}</strong></p><p>Extra credit to move up: <strong>${(rankingPreview.additionalForNext/100).toFixed(2)}</strong></p><p>Extra credit to enter Top 10: <strong>${(rankingPreview.additionalForTop10/100).toFixed(2)}</strong></p></div><p className="text-xs text-slate-400">Estimates use $10 upgrades before discounts and may change during checkout. Equal totals keep the earlier product ahead.</p><RankingRules/><label className="block">Optional coupon<input value={couponCode} onChange={e=>setCouponCode(e.target.value)} maxLength={40} className="block w-full p-3 bg-slate-950 border border-slate-700 rounded-lg"/></label><label className="flex gap-2"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)}/>I understand that my position can change and is not guaranteed.</label><button type="button" disabled={isUpgrading || listing.status !== 'PUBLISHED'} onClick={handleClaimTop10Upgrade} className="bg-amber-400 text-slate-950 font-bold rounded-lg p-3">{isUpgrading?'Processing...':'Add $10 promotional credit (before coupon)'}</button><p className="text-xs text-slate-400">Any coupon discount reduces your charge and promotional credit. Razorpay shows the exact amount before you pay.</p></section>
 
       {/* Seller Analytics Dashboard Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

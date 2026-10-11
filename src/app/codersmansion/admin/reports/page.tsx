@@ -1,3 +1,4 @@
+import AdminProductReports from '@/components/AdminProductReports';
 import React from 'react';
 import { redirect } from 'next/navigation';
 import { verifyAdminAuth } from '@/lib/adminAuth';
@@ -11,6 +12,7 @@ export default async function AdminReportsPage() {
   const admin = await verifyAdminAuth();
   if (!admin) redirect('/codersmansion/admin/login');
 
+  const productReports=await db.listingReport.findMany({take:100,orderBy:{createdAt:'desc'},include:{listing:{select:{title:true}}}});
   const contactMessages = await db.contactMessage.findMany({
     take: 50,
     orderBy: { createdAt: 'desc' },
@@ -20,12 +22,13 @@ export default async function AdminReportsPage() {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       <AdminHeaderNav />
+      <AdminProductReports reports={JSON.parse(JSON.stringify(productReports))}/>
       <div className="flex items-center justify-between border-b border-slate-800 pb-4">
         <div>
           <h1 className="text-2xl font-black text-white flex items-center gap-2">
             <Mail className="w-6 h-6 text-amber-400" /> Buyer Contact Inquiries
           </h1>
-          <p className="text-xs text-slate-400 mt-1">Audit log of lead inquiries submitted to verified sellers.</p>
+          <p className="text-xs text-slate-400 mt-1">Audit log of lead inquiries submitted to sellers.</p>
         </div>
       </div>
 

@@ -94,11 +94,11 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
                 <div className="flex flex-wrap items-center justify-center xs:justify-start gap-2 sm:gap-3 pt-1">
                   <div className="flex items-center gap-1.5 bg-slate-900/90 border border-amber-500/30 px-2.5 py-1 rounded-lg text-xs font-semibold text-amber-300">
                     <DollarSign className="w-3.5 h-3.5 text-amber-400" />
-                    <span>{spot1.mrr || '$42,500'} MRR</span>
+                    <span>{spot1.mrr || 'Not shared'} MRR</span>
                   </div>
                   <div className="flex items-center gap-1.5 bg-slate-900/90 border border-purple-500/30 px-2.5 py-1 rounded-lg text-xs font-semibold text-purple-300">
                     <Users className="w-3.5 h-3.5 text-purple-400" />
-                    <span>{spot1.customersCount || spot1.payingCustomersCount || spot1.usersCount || '340'} Active Users</span>
+                    <span>{spot1.customersCount || spot1.payingCustomersCount || spot1.usersCount || 'Not shared'} Active Users</span>
                   </div>
                 </div>
               </div>
@@ -182,10 +182,10 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
                     </p>
                     <div className="mt-2 flex items-center gap-2 flex-wrap text-[11px]">
                       <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold flex items-center gap-1">
-                        <DollarSign className="w-3 h-3" /> {spot2.mrr || '$28,900'} MRR
+                        <DollarSign className="w-3 h-3" /> {spot2.mrr || 'Not shared'} MRR
                       </span>
                       <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 font-semibold flex items-center gap-1">
-                        <Users className="w-3 h-3 text-purple-400" /> {spot2.customersCount || spot2.payingCustomersCount || spot2.usersCount || '520'} Active Users
+                        <Users className="w-3 h-3 text-purple-400" /> {spot2.customersCount || spot2.payingCustomersCount || spot2.usersCount || 'Not shared'} Active Users
                       </span>
                     </div>
                   </div>
@@ -251,10 +251,10 @@ export default function HeroTop3Cards({ top3 }: HeroTop3Props) {
                     </p>
                     <div className="mt-2 flex items-center gap-2 flex-wrap text-[11px]">
                       <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold flex items-center gap-1">
-                        <DollarSign className="w-3 h-3" /> {spot3.mrr || '$19,400'} MRR
+                        <DollarSign className="w-3 h-3" /> {spot3.mrr || 'Not shared'} MRR
                       </span>
                       <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 font-semibold flex items-center gap-1">
-                        <Users className="w-3 h-3 text-purple-400" /> {spot3.customersCount || spot3.payingCustomersCount || spot3.usersCount || '1,420'} Active Users
+                        <Users className="w-3 h-3 text-purple-400" /> {spot3.customersCount || spot3.payingCustomersCount || spot3.usersCount || 'Not shared'} Active Users
                       </span>
                     </div>
                   </div>

@@ -1,5 +1,6 @@
 'use client';
 import { validateListing } from '@/lib/validation';
+import LogoUpload from './LogoUpload';
 import RankingRules from './RankingRules';
 import { startCheckout } from '@/lib/checkout';
 
@@ -219,7 +220,7 @@ export default function ListingMultiStepForm({
   return (
     <div className="w-full max-w-4xl mx-auto px-3 sm:px-4 py-6 sm:py-8 space-y-4 sm:space-y-6">
       <RankingRules />
-      <p className="text-xs text-slate-400">Logo example: https://example.com/logo.png. Required fields are marked *. Optional links may remain blank.</p>
+      <p className="text-xs text-slate-400">Upload your logo or use a public image URL such as https://example.com/logo.png. Required fields are marked *. Optional links may remain blank.</p>
       <p className="text-sm text-slate-400">Listing: $10 USD. Paid ranking has no expiry or reset. The highest cumulative payments occupy Top 10.</p>
       {/* Step Header Indicator */}
       <div>
@@ -332,6 +333,7 @@ export default function ListingMultiStepForm({
                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500"
                   />
                     {fieldErrors.logoUrl?.length > 0 && <p role="alert" className="text-xs text-rose-300 mt-1">{fieldErrors.logoUrl.join(", ")}</p>}
+                    <LogoUpload onUpload={url=>handleChange('logoUrl',url)}/>
                 </div>
               </div>
 
