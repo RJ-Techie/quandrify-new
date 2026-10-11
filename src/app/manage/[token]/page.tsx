@@ -28,7 +28,7 @@ export default async function ManagePage({ params }: ManagePageProps) {
   return (
     <SellerManagementClient
       pendingPaymentId={(await db.payment.findFirst({ where: { listingId: listing.id, status: 'PENDING' }, orderBy: { createdAt: 'desc' } }))?.id}
-      currentCredit={(await db.payment.aggregate({where:{listingId:listing.id,status:'SUCCEEDED'},_sum:{promotionalAmount:true}}))._sum.promotionalAmount || 0}
+      currentCredit={listing.adminPromotionalCredit + ((await db.payment.aggregate({where:{listingId:listing.id,status:'SUCCEEDED'},_sum:{promotionalAmount:true}}))._sum.promotionalAmount || 0)}
       minimumToEnter={todayPool.minimumToEnter}
       initialListing={listing}
       token={resolvedparams.token}

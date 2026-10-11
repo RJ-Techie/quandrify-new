@@ -17,3 +17,11 @@ This is a hardened source release with deployment configuration. Production read
 - Database migration execution, SQL ranking aggregation, concurrent database fulfillment, authenticated admin coupon/ad mutations, live Razorpay checkout/refund webhooks and browser UI behavior require deployed verification. No production database credentials or merchant account were accessed.
 - Sponsored ads use native modal dialogs with Escape/close support, explicit Sponsored disclosure and session-scoped frequency control. The public ad endpoint only returns display fields from the latest active ad.
 - Admin mutations require an authenticated admin session and a same-origin request. Values and HTTP(S) URLs are validated on the server. Coupon prices are calculated again on the server when the payment is created; a previously quoted amount is fixed for that payment.
+
+## Admin-created listings
+
+Authenticated creation, field validation, Premium grant validation and transactional audit logging are implemented. Promotional grants are separate from paid transactions. Database execution, authenticated browser creation and deployed ranking remain to be verified with a PostgreSQL database.
+
+Admin grant eligibility, dollar validation and displacement/combined credit tests added. Final checks include eleven automated tests.
+
+Admin listing release: Prisma generation, TypeScript, eleven tests and production build passed. Live database/admin browser checks were not run.

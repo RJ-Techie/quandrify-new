@@ -12,3 +12,9 @@ export function rankPayments(payments: { listingId: string; promotionalAmount: n
 export function discountFor(amount: number, type: string, value: number) {
  return Math.min(amount - 100, Math.max(0, type === 'PERCENT' ? Math.floor(amount * value / 100) : value));
 }
+
+export function mergeRankingCredits(scores: {id:string;amount:number;reachedAt:number}[], grants: {id:string;amount:number;grantedAt:number}[]) {
+ const totals = new Map(scores.map(score=>[score.id,{...score}]));
+ for(const grant of grants){const score=totals.get(grant.id) || {id:grant.id,amount:0,reachedAt:0};score.amount+=grant.amount;score.reachedAt=Math.max(score.reachedAt,grant.grantedAt);totals.set(grant.id,score);}
+ return [...totals.values()].filter(score=>score.amount>0).sort((a,b)=>b.amount-a.amount || a.reachedAt-b.reachedAt || a.id.localeCompare(b.id));
+}

@@ -78,6 +78,8 @@ model Listing {
   
   // Status & Security
   status                String            @default("PENDING") // PENDING, PUBLISHED, SUSPENDED, ARCHIVED
+  adminPromotionalCredit Int              @default(0)
+  adminCreditGrantedAt  DateTime?
   isFeatured            Boolean           @default(false)
   managementToken       String            @unique
   managementTokenHash   String?

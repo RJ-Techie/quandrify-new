@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { verifyAdminAuth } from '@/lib/adminAuth';
 import { db } from '@/lib/db';
@@ -28,6 +29,7 @@ export default async function AdminListingsPage() {
         </span>
       </div>
 
+      <Link href="/codersmansion/admin/listings/new" className="inline-block bg-indigo-600 rounded-lg px-5 py-3 font-bold">Add Listing</Link>
       <AdminListingsTable initialListings={listings} />
     </div>
   );
