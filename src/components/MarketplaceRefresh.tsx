@@ -7,7 +7,7 @@ export default function MarketplaceRefresh() {
  const router = useRouter();
  useEffect(() => {
   const routes = ['/', '/search', '/codersmansion/admin/listings', '/codersmansion/admin/top-spots'];
-  if (!routes.includes(pathname)) return;
+  if (!routes.includes(pathname) && !pathname.startsWith('/collections') && !pathname.startsWith('/listing/')) return;
   let lastRefresh = 0;
   const refresh = () => {
    if (document.visibilityState !== 'visible' || Date.now() - lastRefresh < 2000) return;

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import {collections} from '@/lib/collections';
 import { db } from '@/lib/db';
 import { publicListing } from '@/lib/publicListing';
 import { getTodayTop10Pool } from '@/lib/top10';
@@ -19,7 +21,7 @@ export default async function HomePage({searchParams}:{searchParams:Promise<{cat
  const positions=Array.from({length:10},(_,i)=>({position:i+1,listing:pool.spots.find(s=>s.position===i+1)?.listing || null}));
  return <div className="pb-10">
  {defaultView&&<><HeroTop3Cards top3={positions.slice(0,3)}/><Top10RemainingGrid remainingSpots={positions.slice(3)}/><div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-8"><RankingRules/></div></>}
- <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-10"><DiscoveryHero categories={categories} total={total} search={search}/>
+ <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-10"><DiscoveryHero categories={categories} total={total} search={search}/><section className="space-y-4"><div className="flex justify-between items-center"><h2 className="text-2xl font-bold">Explore by purpose</h2><Link href="/collections" className="text-sm text-amber-300">All collections →</Link></div><div className="grid sm:grid-cols-3 gap-4">{collections.map(c=><Link key={c.key} href={'/collections/'+c.key} className="rounded-2xl border border-amber-500/25 bg-slate-900 p-5 hover:border-amber-400"><span className="text-2xl text-amber-300">{c.icon}</span><h3 className="mt-3 font-bold">{c.title}</h3><p className="text-sm text-slate-400 mt-2">{c.description}</p></Link>)}</div></section>
  {latest.length>0&&<section className="space-y-4"><div className="flex justify-between items-center"><div><p className="text-xs text-emerald-300 uppercase tracking-widest">Just landed</p><h2 className="text-2xl font-bold mt-2">Fresh from the builders</h2></div><a href="#feed" className="text-sm text-indigo-300">Keep exploring ↓</a></div><div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{latest.map(l=><ListingCard key={l.id} listing={publicListing(l)}/>)}</div></section>}
  {(feed.totalCount>0 || !defaultView || total===0)&&<DiscoveryFeed initialListings={feed.listings} totalCount={feed.totalCount} category={category} search={search} sort={sort} excludeIds={excludeIds}/>}
  </div></div>;

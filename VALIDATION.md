@@ -38,3 +38,5 @@ Listing refresh fix: TypeScript and a clean production build passed. Refresh tri
 - Media has bounded launch capacity and anonymous-upload rate limits; storage is intentionally documented rather than presented as unlimited.
 
 Banner/rules update: 17 tests pass, including mocked presence API origin enforcement, cookie reuse, active-window count query and public ticker field selection. Production build validates TypeScript. Actual browser dialog interaction, PostgreSQL migration and multi-browser visitor counts still require deployed verification.
+
+Collections/screenshots/sharing update: 19 tests pass. New checks reject unsafe, duplicate and excess screenshot URLs, block public self-assignment to collections, validate admin collection keys, reject unpublished share cards, and render a real PNG with only public selected fields. A sample share card was visually inspected. Production build passes. Live database migration, mobile sharing and native gallery interactions remain deployment checks.

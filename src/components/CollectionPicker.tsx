@@ -1,0 +1,3 @@
+'use client';
+import {collections} from '@/lib/collections';
+export default function CollectionPicker({value,onChange}:{value:string[];onChange:(keys:string[])=>void}){return <fieldset className="rounded-xl border border-amber-500/30 p-4 space-y-3"><legend className="px-2 font-bold text-amber-300">Curated collections</legend><p className="text-xs text-slate-400">Select only collections this product fits. For Free AI tools, verify a useful free offering. Membership does not grant paid ranking credit.</p>{collections.map(c=><label key={c.key} className="flex gap-3 items-center text-sm"><input type="checkbox" checked={value.includes(c.key)} onChange={e=>onChange(e.target.checked?[...value,c.key]:value.filter(k=>k!==c.key))}/>{c.title}</label>)}</fieldset>;}

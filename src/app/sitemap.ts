@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 import { MetadataRoute } from 'next';
+import {collections} from '@/lib/collections';
 import { db } from '@/lib/db';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -30,6 +31,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    {url:`${baseUrl}/collections`,changeFrequency:'weekly',priority:0.8},
+    ...collections.map(c=>({url:`${baseUrl}/collections/${c.key}`,changeFrequency:'weekly' as const,priority:0.7})),
     ...listingUrls,
   ];
 }

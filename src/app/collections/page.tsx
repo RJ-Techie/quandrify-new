@@ -1,0 +1,6 @@
+import Link from 'next/link';
+import {collections} from '@/lib/collections';
+import {db} from '@/lib/db';
+export const dynamic='force-dynamic';
+export const metadata={title:'Product collections',description:'Explore useful products curated by purpose on Quandrify.'};
+export default async function CollectionsPage(){const counts=await Promise.all(collections.map(c=>db.listing.count({where:{status:'PUBLISHED',collectionKeys:{has:c.key}}})));return <section className="max-w-7xl mx-auto px-4 py-10 space-y-6"><p className="text-amber-300 text-xs uppercase tracking-widest">Find your next tool</p><h1 className="text-4xl font-bold">Explore collections</h1><p className="text-slate-400">Selected by purpose. Collection membership is curated separately from paid rankings.</p><div className="grid md:grid-cols-3 gap-5">{collections.map((c,i)=><Link key={c.key} href={'/collections/'+c.key} className="rounded-2xl border border-amber-500/25 hover:border-amber-400 bg-gradient-to-br from-slate-900 to-amber-950/20 p-6 space-y-4"><span className="text-3xl text-amber-300">{c.icon}</span><h2 className="text-xl font-bold">{c.title}</h2><p className="text-sm text-slate-400">{c.description}</p><p className="text-xs text-amber-300">{counts[i]} product{counts[i]===1?'':'s'} · Explore →</p></Link>)}</div></section>;}

@@ -1,4 +1,6 @@
 'use client';
+import {notifyListingChange} from '@/lib/listingRefresh';
+import ScreenshotEditor from './ScreenshotEditor';
 import RankingRules from './RankingRules';
 import { startCheckout } from '@/lib/checkout';
 
@@ -72,6 +74,7 @@ export default function SellerManagementClient({
     fullDescription: listing.fullDescription || '',
     websiteUrl: listing.websiteUrl || '',
     logoUrl: listing.logoUrl || '',
+    screenshotUrls: listing.screenshotUrls || [] as string[],
     primaryCtaText: listing.primaryCtaText || 'Visit Website',
     category: listing.category || 'SaaS',
     companyName: listing.companyName || '',
@@ -127,6 +130,7 @@ export default function SellerManagementClient({
       }
 
       setListing(data.listing);
+      notifyListingChange();
       setMessage({ type: 'success', text: 'Listing changes saved successfully!' });
     } catch (err: any) {
       setMessage({ type: 'error', text: err.message || 'Error saving changes' });
@@ -297,7 +301,7 @@ export default function SellerManagementClient({
                 onChange={(e) => handleChange('logoUrl', e.target.value)}
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white"
               />
-            </div>
+            </div><ScreenshotEditor value={formData.screenshotUrls} onChange={urls=>handleChange('screenshotUrls',urls)}/>
           </div>
 
           <div>

@@ -17,6 +17,8 @@ model Listing {
   websiteUrl            String
   logoUrl               String
   primaryCtaText        String            @default("Visit Website")
+  screenshotUrls        String[]          @default([])
+  collectionKeys        String[]          @default([])
   coverImageUrl         String?
   demoUrl               String?
   videoUrl              String?
@@ -93,6 +95,8 @@ model Listing {
   publishedAt           DateTime?
   createdAt             DateTime          @default(now())
   updatedAt             DateTime          @updatedAt
+
+  @@index([collectionKeys], type: Gin)
 
   sellerEmail           SellerEmail?
   reports               ListingReport[]

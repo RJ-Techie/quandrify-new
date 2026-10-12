@@ -1,4 +1,5 @@
 'use client';
+import ScreenshotEditor from './ScreenshotEditor';
 import { validateListing } from '@/lib/validation';
 import LogoUpload from './LogoUpload';
 import RankingRules from './RankingRules';
@@ -77,6 +78,7 @@ export default function ListingMultiStepForm({
     fullDescription: '',
     websiteUrl: '',
     logoUrl: '',
+    screenshotUrls: [] as string[],
     primaryCtaText: 'Visit Website',
     coverImageUrl: '',
     demoUrl: '',
@@ -156,7 +158,7 @@ export default function ListingMultiStepForm({
   const validateStep = (step: number) => {
     const parsed = validateListing(formData);
     const all = parsed.success ? {} : parsed.error.flatten().fieldErrors;
-    const keys = step === 2 ? ['title','tagline','shortDescription','fullDescription','websiteUrl','logoUrl','coverImageUrl','demoUrl','videoUrl'] : step === 8 ? ['contactName','contactEmail'] : step === 6 ? Object.keys(all).filter(k=>k.startsWith('link')) : [];
+    const keys = step === 2 ? ['title','tagline','shortDescription','fullDescription','websiteUrl','logoUrl','screenshotUrls','coverImageUrl','demoUrl','videoUrl'] : step === 8 ? ['contactName','contactEmail'] : step === 6 ? Object.keys(all).filter(k=>k.startsWith('link')) : [];
     const selected = Object.fromEntries(Object.entries(all).filter(([k])=>keys.includes(k))) as Record<string,string[]>;
     setFieldErrors(selected);
     return Object.keys(selected).length ? Object.entries(selected).map(([key,values])=>`${key}: ${values.join(', ')}`).join('; ') : null;
@@ -333,7 +335,7 @@ export default function ListingMultiStepForm({
                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500"
                   />
                     {fieldErrors.logoUrl?.length > 0 && <p role="alert" className="text-xs text-rose-300 mt-1">{fieldErrors.logoUrl.join(", ")}</p>}
-                    <LogoUpload onUpload={url=>handleChange('logoUrl',url)}/>
+                    <LogoUpload onUpload={url=>handleChange('logoUrl',url)}/><ScreenshotEditor value={formData.screenshotUrls} onChange={urls=>handleChange('screenshotUrls',urls)}/>{fieldErrors.screenshotUrls?.length>0&&<p role="alert" className="text-rose-300 text-xs">{fieldErrors.screenshotUrls.join(", ")}</p>}
                 </div>
               </div>
 

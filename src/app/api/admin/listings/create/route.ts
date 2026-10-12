@@ -1,3 +1,4 @@
+import {collectionKeysSchema} from '@/lib/collections';
 import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { randomBytes } from 'node:crypto';
@@ -16,13 +17,14 @@ export async function POST(req: Request) {
   const body = await req.json();
   const parsed = validateListing(body);
   if (!parsed.success) return NextResponse.json({error:'Please correct the listing fields.',details:parsed.error.flatten()}, {status:400});
+ const selected=collectionKeysSchema.safeParse(body.collectionKeys || []);if(!selected.success)return NextResponse.json({error:'Invalid collection choices'},{status:400});
   const credit = grantedCredit({premium:body.premium,creditDollars:body.creditDollars});
   if (!credit.success) return NextResponse.json({error:credit.error}, {status:400});
   const {publicMetrics,wantsTop10Addon,couponCode,...fields} = parsed.data;
   const token = randomBytes(32).toString('hex');
   const slug = fields.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + randomBytes(6).toString('hex');
   const listing = await db.$transaction(async tx => {
-   const item = await tx.listing.create({data:{...fields,title:fields.title,tagline:fields.tagline,shortDescription:fields.shortDescription,fullDescription:fields.fullDescription,websiteUrl:fields.websiteUrl,logoUrl:fields.logoUrl,contactName:fields.contactName,contactEmail:fields.contactEmail,slug,category:fields.category || 'Startup',managementToken:token,managementTokenHash:digest(token),publicMetricsJson:JSON.stringify(publicMetrics || []),status:'PUBLISHED',publishedAt:new Date(),adminPromotionalCredit:credit.cents,adminCreditGrantedAt:credit.cents ? new Date():null}});
+   const item = await tx.listing.create({data:{...fields,collectionKeys:selected.data,title:fields.title,tagline:fields.tagline,shortDescription:fields.shortDescription,fullDescription:fields.fullDescription,websiteUrl:fields.websiteUrl,logoUrl:fields.logoUrl,contactName:fields.contactName,contactEmail:fields.contactEmail,slug,category:fields.category || 'Startup',managementToken:token,managementTokenHash:digest(token),publicMetricsJson:JSON.stringify(publicMetrics || []),status:'PUBLISHED',publishedAt:new Date(),adminPromotionalCredit:credit.cents,adminCreditGrantedAt:credit.cents ? new Date():null}});
    await tx.sellerEmail.create({data:{listingId:item.id}});
    await tx.auditLog.create({data:{action:'ADMIN_CREATE_LISTING',actor:admin.email,details:JSON.stringify({listingId:item.id,premium:credit.cents>0,grantedCredit:credit.cents})}});
    return item;
